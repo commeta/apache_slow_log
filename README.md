@@ -47,7 +47,7 @@
 
 В вашем примере формат лога выглядит следующим образом:
 
-LogFormat "%a %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %D" combined
+`LogFormat "%a %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %D" combined`
 
 
 Здесь:

@@ -31,7 +31,7 @@
 3. Настройте переменные LOG_FILES_GLOB и SLOW_LOG_PATH при необходимости.
 4. Запустите скрипт:
    
-`python3 slow_log_top_100.py`
+`python3 apache_slow_log.py`
    
 
 ### Зависимости

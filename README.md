@@ -1,5 +1,8 @@
 # Description of the apache_slow_log.py script
 
+[На Русском](README_RU.md)
+
+
 This script analyzes Apache logs to identify the slowest requests to the server. It extracts request information from configuration files, locates corresponding logs, and creates a list of the 100 slowest requests based on the server response time recorded in microseconds.
 ## Functionality
 

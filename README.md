@@ -1,81 +1,81 @@
-##  Описание скрипта apache_slow_log.py
+# Description of the apache_slow_log.py script
 
-Этот скрипт анализирует логи Apache для выявления самых медленных запросов к серверу. Он извлекает информацию о запросах из конфигурационных файлов, находит соответствующие логи и создает список из 100 самых медленных запросов на основе времени ответа сервера, записанного в микросекундах.
+This script analyzes Apache logs to identify the slowest requests to the server. It extracts request information from configuration files, locates corresponding logs, and creates a list of the 100 slowest requests based on the server response time recorded in microseconds.
+## Functionality
 
-### Функциональность
-1. **Получение логов**: Скрипт ищет все файлы конфигурации Apache, содержащие директиву CustomLog, чтобы определить, где находятся файлы логов.
-2. **Парсинг логов**: Каждая строка лога анализируется для извлечения IP-адреса и времени выполнения запроса.
-3. **Извлечение домена**: Извлекается домен из пути к файлу лога.
-4. **Поиск топовых запросов**: Скрипт собирает данные о запросах и сохраняет только 100 самых медленных, используя структуру данных heapq для эффективного управления памятью.
-5. **Объединение данных**: Скрипт сравнивает новые данные с уже существующими в slow.log, обновляя записи, если новые запросы медленнее старых.
-6. **Запись в файл**: Результаты сохраняются в файл slow.log.
+- Log Retrieval: The script searches all Apache configuration files for the CustomLog directive to determine the locations of the log files.
+- Log Parsing: Each log line is analyzed to extract the IP address and request execution time.
+- Domain Extraction: The domain is extracted from the log file path.
+- Top Request Identification: The script collects request data and stores only the 100 slowest, using the heapq data structure for efficient memory management.
+- Data Aggregation: The script compares new data with existing data in slow.log, updating entries if new requests are slower than older ones.
+- File Writing: The results are saved to the slow.log file.
 
-### Формат времени
-Время выполнения запросов записывается в микросекундах. Для перевода этого значения в секунды, используйте следующую формулу:
+## Time Format
 
-Время (в секундах) = Время (в микросекундах) / 1,000,000
+Request execution times are recorded in microseconds. To convert this value to seconds, use the following formula:
 
+Time (in seconds) = Time (in microseconds) / 1,000,000
+## Example Output
 
-### Пример результата
-Результат выполнения скрипта может выглядеть следующим образом:
+The output of the script may look like this:
+
 - 5385806 site1.ru/
 - 5315441 site2.ru/1.html
 - 4991294 site3.ru/
 - 4703806 site1.ru/3.html
 - 4699142 site1.ru/10.html
 
+## Installation and Usage
 
-### Установка и использование
-1. Скопируйте скрипт на сервер с установленным Python 3.
-2. Убедитесь, что у вас есть доступ к логам Apache.
-3. Настройте переменные LOG_FILES_GLOB и SLOW_LOG_PATH при необходимости.
-4. Запустите скрипт:
-   
+- Copy the script to the server with Python 3 installed.
+
+- Ensure you have access to the Apache logs.
+
+- Configure the LOG_FILES_GLOB and SLOW_LOG_PATH variables if necessary.
+
+- Run the script:
+
 `python3 apache_slow_log.py`
-   
 
-### Зависимости
+## Dependencies
+
 - Python 3
-- Библиотеки стандартной библиотеки: os, re, heapq
+- Standard library modules: os, re, heapq
 
+Description of the %D Parameter in Apache Log Format Configuration (LogFormat)
 
-### Описание параметра %D в конфигурации формата лога Apache (LogFormat)
+- %D: This parameter outputs the time taken to process the request in microseconds. This value includes all stages of request processing, including the time spent executing application code and the time needed to transmit the response to the client.
 
-- **%D**: Этот параметр выводит время, затраченное на обработку запроса, в микросекундах. Это значение включает все этапы обработки запроса, включая время, затраченное на выполнение кода приложения и время, необходимое для передачи ответа клиенту.
+## Example Log Format
 
-### Пример формата лога
+In the example, the log format looks like this:
 
-В примере формат лога выглядит следующим образом:
+LogFormat "%a %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %D" combined
 
-`LogFormat "%a %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %D" combined`
+Here:
 
+- %a: Client IP address.
+- %l: Client login (usually -).
+- %u: Username (if authentication is used).
+- %t: Request time.
+- %r: Request that was executed (e.g., GET /index.html HTTP/1.1).
+- %>s: HTTP status code.
+- %b: Response size in bytes.
+- %{Referer}i: Referer header from the request.
+- %{User-Agent}i: User-Agent header from the request.
+- %D: Request execution time in microseconds.
 
-Здесь:
-- %a: IP-адрес клиента.
-- %l: Логин клиента (обычно -).
-- %u: Имя пользователя (если аутентификация используется).
-- %t: Время запроса.
-- %r: Запрос, который был выполнен (например, GET /index.html HTTP/1.1).
-- %>s: Код состояния HTTP.
-- %b: Размер ответа в байтах.
-- %{Referer}i: Заголовок Referer из запроса.
-- %{User-Agent}i: Заголовок User-Agent из запроса.
-- %D: Время выполнения запроса в микросекундах.
+## How it Relates to the Script
 
-### Как это связано со скриптом
+- Log Parsing: The apache_slow_log.py script reads lines from Apache logs with the format shown above. During parsing, it searches for the %D value to determine how long each request took to process.
 
-1. **Парсинг логов**: Скрипт apache_slow_log.py читает строки из логов Apache с форматом, указанным выше. При парсинге он ищет значение %D, чтобы определить, сколько времени потребовалось для обработки каждого запроса.
+- Slow Request Analysis: The script collects data about all requests and their execution times to compile a list of the 100 slowest. Because %D provides execution time in microseconds, the script can easily compare and sort these values.
 
-2. **Анализ медленных запросов**: Скрипт собирает данные о всех запросах и их времени выполнения, чтобы составить список из 100 самых медленных. Поскольку %D предоставляет время выполнения в микросекундах, скрипт может легко сравнивать и сортировать эти значения.
+- Result Saving: After analysis, the script saves the results to the slow.log file, which lists the slowest requests, allowing server administrators to quickly identify problem areas and optimize performance.
 
-3. **Сохранение результатов**: После анализа скрипт сохраняет результаты в файл slow.log, где указаны самые медленные запросы, что позволяет администраторам сервера быстро идентифицировать проблемные участки и оптимизировать производительность.
+Therefore, the %D parameter is key to the script’s operation, as it provides the necessary information about request processing times, enabling the efficient identification and analysis of slow requests to the server.
+## License
 
-Таким образом, параметр %D является ключевым элементом для работы скрипта, так как он предоставляет необходимую информацию о времени обработки запросов, позволяя эффективно выявлять и анализировать медленные запросы к серверу.
+This project is licensed under the MIT License.
 
-
-### Лицензия
-Этот проект лицензирован под MIT License. 
-
----
-
-Скрипт предназначен для администраторов серверов, желающих оптимизировать производительность своих веб-приложений путем анализа медленных запросов.
+This script is intended for server administrators who want to optimize the performance of their web applications by analyzing slow requests.

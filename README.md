@@ -13,12 +13,12 @@ This script analyzes Apache logs to identify the slowest requests to the server.
 - Data Aggregation: The script compares new data with existing data in slow.log, updating entries if new requests are slower than older ones.
 - File Writing: The results are saved to the slow.log file.
 
-## Time Format
+### Time Format
 
 Request execution times are recorded in microseconds. To convert this value to seconds, use the following formula:
 
 Time (in seconds) = Time (in microseconds) / 1,000,000
-## Example Output
+### Example Output
 
 The output of the script may look like this:
 
@@ -28,7 +28,7 @@ The output of the script may look like this:
 - 4703806 site1.ru/3.html
 - 4699142 site1.ru/10.html
 
-## Installation and Usage
+### Installation and Usage
 
 - Copy the script to the server with Python 3 installed.
 
@@ -40,7 +40,7 @@ The output of the script may look like this:
 
 `python3 apache_slow_log.py`
 
-## Dependencies
+### Dependencies
 
 - Python 3
 - Standard library modules: os, re, heapq
@@ -49,7 +49,7 @@ Description of the %D Parameter in Apache Log Format Configuration (LogFormat)
 
 - %D: This parameter outputs the time taken to process the request in microseconds. This value includes all stages of request processing, including the time spent executing application code and the time needed to transmit the response to the client.
 
-## Example Log Format
+### Example Log Format
 
 In the example, the log format looks like this:
 
@@ -68,7 +68,7 @@ Here:
 - %{User-Agent}i: User-Agent header from the request.
 - %D: Request execution time in microseconds.
 
-## How it Relates to the Script
+### How it Relates to the Script
 
 - Log Parsing: The apache_slow_log.py script reads lines from Apache logs with the format shown above. During parsing, it searches for the %D value to determine how long each request took to process.
 
@@ -77,7 +77,7 @@ Here:
 - Result Saving: After analysis, the script saves the results to the slow.log file, which lists the slowest requests, allowing server administrators to quickly identify problem areas and optimize performance.
 
 Therefore, the %D parameter is key to the script’s operation, as it provides the necessary information about request processing times, enabling the efficient identification and analysis of slow requests to the server.
-## License
+### License
 
 This project is licensed under the MIT License.
 

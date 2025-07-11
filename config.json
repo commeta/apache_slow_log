@@ -1,6 +1,6 @@
 {
   "log_files_glob": "/etc/apache2/sites-enabled/*/*.conf",
-  "slow_log_path": "/var/apache2/httpd/slow.log",
+  "slow_log_path": "/var/apache2/slow.log",
   "top_n": 100,
   "min_duration": 100000,
   "log_format": "combined",

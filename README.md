@@ -68,7 +68,7 @@ Create a `config.json` file:
 
 ```json
 {
-  "log_files_glob": "/etc/httpd/sites-enabled/*/*.conf",
+  "log_files_glob": "/etc/apache2/sites-enabled/*/*.conf",
   "slow_log_path": "/var/log/apache2/slow.log",
   "top_n": 100,
   "min_duration": 100000,
